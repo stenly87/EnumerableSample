@@ -30,9 +30,9 @@ namespace ConsoleApp26
     { 
         // значение
         public T Value { get; set; }
-        //ссылка на объект впереди
-        public Item<T> Previous { get; set; } 
         //ссылка на объект сзади
+        public Item<T> Previous { get; set; }
+        //ссылка на объект впереди
         public Item<T> Next { get; set; }
     }
 
@@ -106,6 +106,28 @@ namespace ConsoleApp26
             if (node.Next == null)
                 return null;
             return Search(node.Next, val);
+        }
+
+        public void InsertBefore(T before, T val)
+        {
+            Item<T> search = Search(head, before);
+            if (search == null)
+            {
+                Console.WriteLine($"Элемент {val} не найден");
+                return;
+            }
+            Item<T> newVal = new Item<T> { Value = val };
+            newVal.Next = search;
+            if (search == head)
+            {
+                head = newVal;
+            }
+            else
+            {
+                search.Previous.Next = newVal;
+                newVal.Previous = search.Previous;
+            }
+            search.Previous = newVal;
         }
     }
 }
